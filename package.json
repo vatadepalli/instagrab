@@ -1,0 +1,19 @@
+{
+  "name": "instagrab",
+  "version": "0.1.0",
+  "description": "A puppeteer based grabber which downloads images from a public instagram handle",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "github.com/vatadepalli/instagrab"
+  },
+  "author": "@vatadepalli",
+  "license": "MIT",
+  "dependencies": {
+    "puppeteer": "^1.19.0"
+  }
+}
