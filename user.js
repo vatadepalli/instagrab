@@ -1,3 +1,3 @@
 module.exports = {
-  hash: 123
+  userName: "playboy"
 };
