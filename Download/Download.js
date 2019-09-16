@@ -11,7 +11,5 @@ module.exports = Download = (uri, filename, callback) => {
       .on("close", callback);
   });
 
-  console.log("_______________ DEBUG _____________________-");
-  console.log("********************************************************");
   //   console.log(images);
 };

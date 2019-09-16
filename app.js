@@ -5,8 +5,9 @@ const Response = require("./Response/Response");
 const Download = require("./Download/Download");
 
 // Flags
-responses = 0;
-imageCount = 0;
+var responses = 0;
+// var imageCount = 0;
+var numberOfPics = 0;
 
 // Data
 images = [];
@@ -15,7 +16,7 @@ images = [];
   try {
     // SETUP
     const browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
       args: ["--window-size=1920x1080", "--window-position=0,0"]
     });
 
@@ -28,6 +29,25 @@ images = [];
     await page.goto("https://www.instagram.com/" + user.userName + "/", {
       waitUntil: "networkidle2"
     });
+
+    // Get Number of Images
+    await page.waitForSelector(
+      "#react-root > section > main > div > header > section > ul > li:nth-child(1) > a > span"
+    );
+
+    const element = await page.$(".-nal3");
+    var text = await page.evaluate(element => element.textContent, element);
+    console.log("_______________ DEBUG _____________________-");
+    console.log("********************************************************");
+    text = await parseInt(text, 10);
+    console.log(typeof text);
+    console.log(text);
+    numberOfPics = text;
+
+    // await console.log(typeof numberOfPics);
+    // await console.log(numberOfPics);
+
+    // Wait for 1st Photo
     await page.waitForSelector(
       "#react-root > section > main > div > div._2z6nI > article > div > div > div:nth-child(2) > div:nth-child(3) > a > div > div._9AhH0"
     );
@@ -35,16 +55,16 @@ images = [];
     // Get Response
     await Response(page, responses, images);
 
-    // Count the number of images on the page
-    let texts = await page.evaluate(() => {
-      let data = [];
-      let elements = document.getElementsByClassName("v1Nh3");
-      for (var element of elements) data.push(element.textContent);
-      return data;
-    });
+    // Count the number of images on the page - Legacy
+    // let texts = await page.evaluate(() => {
+    //   let data = [];
+    //   let elements = document.getElementsByClassName("v1Nh3");
+    //   for (var element of elements) data.push(element.textContent);
+    //   return data;
+    // });
 
-    imageCount = texts.length;
-    console.log(imageCount);
+    // imageCount = texts.length;
+    // console.log(imageCount);
 
     // Click the first image
     await page.click(
@@ -59,7 +79,9 @@ images = [];
 
     // Loop Through All Images
 
-    for (i = 0; i < imageCount - 2; i++) {
+    for (i = 0; i < 100 - 2; i++) {
+      // for (i = 0; i < numberOfPics - 2; i++) {
+      // for (i = 0; i < text - 2; i++) {
       console.log(i + 1);
       await page.waitForSelector(
         "body > div._2dDPU.vCf6V > div.EfHg9 > div > div > a.HBoOv.coreSpriteRightPaginationArrow"
@@ -68,19 +90,6 @@ images = [];
         "body > div._2dDPU.vCf6V > div.EfHg9 > div > div > a.HBoOv.coreSpriteRightPaginationArrow"
       );
     }
-
-    // Download
-    // await images.forEach(image => {
-    //   console.log("PANDI**********");
-    // });
-
-    // await Download(
-    //   "https://www.google.com/images/srpr/logo3w.png",
-    //   "google.png",
-    //   () => {
-    //     console.log("done");
-    //   }
-    // );
 
     console.log("Done");
   } catch (e) {
