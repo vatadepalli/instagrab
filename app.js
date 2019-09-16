@@ -15,7 +15,7 @@ images = [];
   try {
     // SETUP
     const browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
       args: ["--window-size=1920x1080", "--window-position=0,0"]
     });
 
