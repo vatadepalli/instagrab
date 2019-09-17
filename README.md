@@ -10,5 +10,8 @@ Install dependencies
 Enter Username of an Instagram User with Public Profile in the file.
 > user.js
 
+Enter Your UserName and Password
+> user.js
+
 Start Download
 > yarn start
