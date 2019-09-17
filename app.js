@@ -3,6 +3,7 @@ const user = require("./user.js");
 const puppeteer = require("puppeteer");
 const Response = require("./Response/Response");
 const Download = require("./Download/Download");
+const Login = require("./Login");
 
 // Flags
 var responses = 0;
@@ -25,6 +26,9 @@ images = [];
       "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
     );
 
+    // Login
+    await Login(page, user.loginUser, user.password);
+
     // GOTO User Page
     await page.goto("https://www.instagram.com/" + user.userName + "/", {
       waitUntil: "networkidle2"
@@ -32,7 +36,8 @@ images = [];
 
     // Get Number of Images
     await page.waitForSelector(
-      "#react-root > section > main > div > header > section > ul > li:nth-child(1) > a > span"
+      // "#react-root > section > main > div > header > section > ul > li:nth-child(1) > a > span" // - Not Logged In
+      "#react-root > section > main > div > header > section > ul > li:nth-child(1) > span > span" // - Logged In
     );
 
     const element = await page.$(".-nal3");
@@ -79,7 +84,7 @@ images = [];
 
     // Loop Through All Images
 
-    for (i = 0; i < 100 - 2; i++) {
+    for (i = 0; i < numberOfPics - 2; i++) {
       // for (i = 0; i < numberOfPics - 2; i++) {
       // for (i = 0; i < text - 2; i++) {
       console.log(i + 1);

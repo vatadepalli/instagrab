@@ -1,4 +1,6 @@
 module.exports = {
   // userName: "max__reeves"
-  userName: "playboy"
+  userName: "",
+  loginUser: "",
+  password: ""
 };
